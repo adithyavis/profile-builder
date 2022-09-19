@@ -6,10 +6,13 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta name="description" content="Profile viewer app by adithyavis" />
+          <meta
+            name="description"
+            content="Profile builder app by adithyavis"
+          />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <title>Profile Viewer</title>
+        <title>Profile Builder</title>
         <body>
           <Main />
           <NextScript />
