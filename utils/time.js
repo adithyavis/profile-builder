@@ -30,3 +30,24 @@ export const compare = (time1, time2) => {
   }
   return 0
 }
+
+export const getPeriodPresentation = (from, to) => {
+  const fromDate = new Date(from.year, from.month - 1)
+  const fromMonthShortString = fromDate.toLocaleDateString('default', {
+    month: 'short',
+  })
+  const fromYearNumeric = fromDate.toLocaleDateString('default', {
+    year: 'numeric',
+  })
+  if (to.isLatest) {
+    return `${fromMonthShortString} ${fromYearNumeric} to Now`
+  }
+  const toDate = new Date(to.year, to.month - 1)
+  const toMonthShortString = toDate.toLocaleDateString('default', {
+    month: 'short',
+  })
+  const toYearNumeric = toDate.toLocaleDateString('default', {
+    year: 'numeric',
+  })
+  return `${fromMonthShortString} ${fromYearNumeric} to ${toMonthShortString} ${toYearNumeric}`
+}

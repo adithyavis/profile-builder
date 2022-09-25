@@ -23,6 +23,7 @@ import { createPeriod } from 'domain/Period'
 
 import { Id } from 'types/Experience'
 import { LogoUri } from 'types/Company'
+import { getPeriodPresentation } from 'utils/time'
 
 const useEditExperienceForm = () => {
   const {
@@ -186,7 +187,15 @@ export const ExperiencesList: React.FC = ({}) => {
             key={experience.id}
             title={experience.role}
             subtitle={experience.company.name}
-            miscInfos={[{ key: 'period', value: 'Jul 2022 to Aug 2022' }]}
+            miscInfos={[
+              {
+                key: 'period',
+                value: getPeriodPresentation(
+                  experience.period.from,
+                  experience.period.to
+                ),
+              },
+            ]}
             description={experience.summary}
             headerLeftComponent={renderLogo(experience.company.logoUri)}
             headerRightComponent={renderEditIcon(experience.id)}
