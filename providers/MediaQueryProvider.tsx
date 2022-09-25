@@ -21,12 +21,14 @@ type MediaQueryProvider = {
 export const MediaQueryProvider: React.FC<MediaQueryProvider> = ({
   children,
 }) => {
-  const [isMobile] = useMediaQueryChakra(`(max-width${BREAKPOINTS.md})`)
-  const [isTabletOrMobile] = useMediaQueryChakra(`(max-width${BREAKPOINTS.lg})`)
-  const [isLaptopOrDesktop] = useMediaQueryChakra(
-    `(min-width${BREAKPOINTS.xl})`
+  const [isMobile] = useMediaQueryChakra(`(max-width: ${BREAKPOINTS.md})`)
+  const [isTabletOrMobile] = useMediaQueryChakra(
+    `(max-width:${BREAKPOINTS.lg})`
   )
-  const [isDesktop] = useMediaQueryChakra(`(min-width${BREAKPOINTS['2xl']})`)
+  const [isLaptopOrDesktop] = useMediaQueryChakra(
+    `(min-width:${BREAKPOINTS.xl})`
+  )
+  const [isDesktop] = useMediaQueryChakra(`(min-width:${BREAKPOINTS['2xl']})`)
 
   return (
     <MediaQueryContext.Provider
