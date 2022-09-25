@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from 'react'
+import React, { useState, useContext, createContext, useEffect } from 'react'
 
 import { ProfilePic } from 'types/ProfilePic'
 import { PersonalInfo } from 'types/PersonalInfo'
@@ -40,19 +40,47 @@ const StoreContext = createContext<StoreContext>({
   editProfilePic: () => {},
 })
 
+function usePermState<S>(
+  initialVal: S | (() => S),
+  valKey: string
+): [S, (val: S) => void] {
+  const [savePerm] = useState<boolean>(true)
+  const [val, setVal] = useState<S>(initialVal)
+
+  useEffect(() => {
+    /** Rehydrate previously saved values on client-side */
+    try {
+      setVal(JSON.parse(window.localStorage.getItem(`${valKey}`) || ''))
+    } catch (e) {
+      setVal(initialVal)
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const setPermVal = (newVal: S) => {
+    setVal(newVal)
+    /** Save values permanently */
+    if (savePerm) {
+      window.localStorage.setItem(`${valKey}`, JSON.stringify(newVal))
+    }
+  }
+
+  return [val, setPermVal]
+}
+
 type StoreProvider = {
   children: React.ReactNode
 }
 export const StoreProvider: React.FC<StoreProvider> = ({ children }) => {
-  const [profilePic, setProfilePic] = useState<StoreContext['profilePic']>(
-    createProfilePic()
+  const [profilePic, setProfilePic] = usePermState<StoreContext['profilePic']>(
+    createProfilePic(),
+    'profilePic'
   )
-  const [personalInfo, setPersonalInfo] = useState<
+  const [personalInfo, setPersonalInfo] = usePermState<
     StoreContext['personalInfo']
-  >(createPersonalInfo(null))
-  const [experiences, setExperiences] = useState<StoreContext['experiences']>(
-    []
-  )
+  >(createPersonalInfo(null), 'personalInfo')
+  const [experiences, setExperiences] = usePermState<
+    StoreContext['experiences']
+  >([], 'experiences')
 
   const addExperience: StoreContext['addExperience'] = (args) => {
     setExperiences(_addExperience(experiences, args))
