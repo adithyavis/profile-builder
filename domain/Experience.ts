@@ -28,27 +28,21 @@ export const getExperience = (
   return experiences.find((experience) => experience.id === id)
 }
 
+export const sortExperiences = (experiences: Experience[]) => {
+  experiences.sort((experience1, experience2) => {
+    return -1 * comparePeriods(experience1.period, experience2.period)
+  })
+}
+
 export const addExperience = (
   experiences: Experience[],
   newExperience: Experience
 ) => {
-  const resultingExperiences: Experience[] = []
-  let isNewExperienceAdded = false
-  for (let i = 0; i < experiences.length; i++) {
-    const currentExperience = experiences[i]
-    const periodsComparisonResult = comparePeriods(
-      newExperience.period,
-      currentExperience.period
-    )
-    if (periodsComparisonResult >= 0) {
-      resultingExperiences.push(newExperience)
-      isNewExperienceAdded = true
-    }
-    resultingExperiences.push(currentExperience)
-  }
-  if (!isNewExperienceAdded) {
-    resultingExperiences.push(newExperience)
-  }
+  const resultingExperiences: Experience[] = [
+    ...experiences,
+    createExperience({ ...newExperience }),
+  ]
+  sortExperiences(resultingExperiences)
   return resultingExperiences
 }
 
@@ -57,12 +51,14 @@ export const editExperience = (
   targetId: Id,
   args: Partial<Experience>
 ) => {
-  return experiences.map((experience) => {
+  const resultingExperiences = experiences.map((experience) => {
     if (experience.id === targetId) {
       return createExperience({ ...experience, ...args })
     }
     return experience
   })
+  sortExperiences(resultingExperiences)
+  return resultingExperiences
 }
 
 export const deleteExperience = (experiences: Experience[], targetId: Id) => {
