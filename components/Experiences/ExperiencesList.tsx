@@ -20,10 +20,11 @@ import { ExperienceForm } from 'components/Experiences/ExperienceForm'
 import { createExperience, getExperience } from 'domain/Experience'
 import { createCompany } from 'domain/Company'
 import { createPeriod } from 'domain/Period'
+import { getPeriodPresentation } from 'utils/time'
 
 import { Id } from 'types/Experience'
 import { LogoUri } from 'types/Company'
-import { getPeriodPresentation } from 'utils/time'
+import { PeriodTo, PeriodFrom } from 'types/Period'
 
 const useEditExperienceForm = () => {
   const {
@@ -93,10 +94,10 @@ const useEditExperienceModal = (
       if (currentExperienceId === null) {
         return
       }
-      const to = toIsLatest
-        ? { toIsLatest: true }
+      const to: PeriodTo = toIsLatest
+        ? { isLatest: true }
         : { month: toMonth, year: toYear }
-      const from = { month: fromMonth, year: fromYear }
+      const from: PeriodFrom = { month: fromMonth, year: fromYear }
       editExperience(
         currentExperienceId,
         createExperience({
