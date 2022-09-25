@@ -224,7 +224,11 @@ export const ExperienceForm: React.FC<Props> = ({
               </Select>
             </Box>
           </Flex>
-          <Checkbox isInvalid={false} {...register('toIsLatest')}>
+          <Checkbox
+            defaultChecked={experience ? experience.period.to.isLatest : false}
+            isInvalid={false}
+            {...register('toIsLatest')}
+          >
             Currently working
           </Checkbox>
           <FormErrorMessage>
