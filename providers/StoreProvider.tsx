@@ -13,7 +13,6 @@ import {
   editPersonalInfo as _editPersonalInfo,
 } from 'domain/PersonalInfo'
 import {
-  createExperience,
   addExperience as _addExperience,
   editExperience as _editExperience,
 } from 'domain/Experience'
@@ -51,9 +50,9 @@ export const StoreProvider: React.FC<StoreProvider> = ({ children }) => {
   const [personalInfo, setPersonalInfo] = useState<
     StoreContext['personalInfo']
   >(createPersonalInfo(null))
-  const [experiences, setExperiences] = useState<StoreContext['experiences']>([
-    createExperience(),
-  ])
+  const [experiences, setExperiences] = useState<StoreContext['experiences']>(
+    []
+  )
 
   const addExperience: StoreContext['addExperience'] = (args) => {
     setExperiences(_addExperience(experiences, args))
