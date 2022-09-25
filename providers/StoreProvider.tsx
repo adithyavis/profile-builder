@@ -44,13 +44,17 @@ function usePermState<S>(
   initialVal: S | (() => S),
   valKey: string
 ): [S, (val: S) => void] {
-  const [savePerm] = useState<boolean>(true)
+  const [isPerm] = useState<boolean>(true)
   const [val, setVal] = useState<S>(initialVal)
 
   useEffect(() => {
     /** Rehydrate previously saved values on client-side */
     try {
-      setVal(JSON.parse(window.localStorage.getItem(`${valKey}`) || ''))
+      if (isPerm) {
+        setVal(JSON.parse(window.localStorage.getItem(`${valKey}`) || ''))
+      } else {
+        setVal(initialVal)
+      }
     } catch (e) {
       setVal(initialVal)
     } // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,7 +63,7 @@ function usePermState<S>(
   const setPermVal = (newVal: S) => {
     setVal(newVal)
     /** Save values permanently */
-    if (savePerm) {
+    if (isPerm) {
       window.localStorage.setItem(`${valKey}`, JSON.stringify(newVal))
     }
   }
