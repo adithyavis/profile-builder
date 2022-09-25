@@ -16,8 +16,16 @@ const defaultExperience: Experience = {
 export const createExperience = (args?: Partial<Experience>): Experience => {
   return {
     ...defaultExperience,
+    ...{ id: generateId() },
     ...args,
   }
+}
+
+export const getExperience = (
+  experiences: Experience[],
+  id: Id
+): Experience | undefined => {
+  return experiences.find((experience) => experience.id === id)
 }
 
 export const addExperience = (
