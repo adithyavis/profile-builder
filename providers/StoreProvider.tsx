@@ -23,8 +23,8 @@ type StoreContext = {
   experiences: Experience[]
   addExperience: (args: Experience) => void
   editExperience: (id: Id, args: Partial<Experience>) => void
-  editPersonalInfo: (args: PersonalInfo) => void
-  editProfilePic: (args: ProfilePic) => void
+  editPersonalInfo: (args: Partial<PersonalInfo> | null) => void
+  editProfilePic: (args: Partial<ProfilePic>) => void
 }
 const StoreContext = createContext<StoreContext>({
   profilePic: createProfilePic(),
@@ -63,6 +63,10 @@ export const StoreProvider: React.FC<StoreProvider> = ({ children }) => {
   }
 
   const editPersonalInfo: StoreContext['editPersonalInfo'] = (args) => {
+    if (args === null) {
+      setPersonalInfo(null)
+      return
+    }
     setPersonalInfo(_editPersonalInfo(personalInfo, args))
   }
 
