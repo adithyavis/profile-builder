@@ -1,5 +1,5 @@
-import { uuid } from 'uuidv4'
+import { v4 } from 'uuid'
 
 export const generate = () => {
-  return uuid()
+  return v4()
 }
