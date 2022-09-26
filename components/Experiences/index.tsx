@@ -13,6 +13,7 @@ import {
   UseFormHandleSubmit,
   UseFormReset,
 } from 'react-hook-form'
+import Image from 'next/image'
 import { useStoreContext } from 'providers/StoreProvider'
 import { ExperiencesList } from 'components/Experiences/ExperiencesList'
 import { Modal, useModal } from 'components/core/Modal'
@@ -20,8 +21,6 @@ import { ExperienceForm } from 'components/Experiences/ExperienceForm'
 import { createExperience } from 'domain/Experience'
 import { createCompany } from 'domain/Company'
 import { createPeriod } from 'domain/Period'
-
-import NoResultsSvg from 'assets/svg/NoResults.svg'
 
 const useAddExperienceForm = () => {
   const {
@@ -160,7 +159,12 @@ export const Experiences: React.FC = () => {
         </Flex>
         {experiences.length === 0 ? (
           <VStack justifyContent="center" height={300} gap={4}>
-            <NoResultsSvg />
+            <Image
+              src="/assets/svg/NoResults.svg"
+              alt="No experiences"
+              width="200"
+              height="200"
+            />
             <Text fontSize="2xl" noOfLines={2}>
               {'No results found :('}
             </Text>
