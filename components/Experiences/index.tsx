@@ -160,7 +160,7 @@ export const Experiences: React.FC = () => {
         {experiences.length === 0 ? (
           <VStack justifyContent="center" height={300} gap={4}>
             <Image
-              src="/assets/svg/NoResults.svg"
+              src="/assets/svg/noResults.svg"
               alt="No experiences"
               width="200"
               height="200"
